@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: codefresh-tunnel-server-config
+data:
+  frps.ini: |-
+    [common]
+    bind_port = 80
+    vhost_http_port = 80
+    subdomain_host = {{ .Values.tunnelsSubdomain.host }}
+    dashboard_port = 7500
+    dashboard_user = admin
+    dashboard_pwd = admin
+    log_level = trace
+    [plugin.codefresh]
+    addr = 127.0.0.1:7200
+    path = /newProxy
+    ops = NewProxy
