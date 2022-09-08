@@ -1,5 +1,5 @@
 # URL of Codefresh platform
-codefreshURL: "https://g.codefresh.io"
+codefreshBaseUrl: https://g.codefresh.io
 # Tunnel server deployment
 server:
   image:

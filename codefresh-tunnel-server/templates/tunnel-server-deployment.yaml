@@ -52,6 +52,10 @@ spec:
         - name: codefresh-plugin
           image: "{{ .Values.plugin.image.repository }}:{{ .Values.plugin.image.tag}}"
           imagePullPolicy: {{ .Values.plugin.image.pullPolicy }}
+          command: ["frp-codefresh-plugin"]
+          args:
+          - --bind_addr=0.0.0.0:7200
+          - --codefresh_host={{ .Values.codefreshBaseUrl | quote }}
           env:
           {{- include "codefresh-tunnel-server.redis-url-env" . | nindent 10 }}
           - name: MY_POD_IP
