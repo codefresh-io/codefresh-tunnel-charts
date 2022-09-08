@@ -7,7 +7,7 @@ data:
     [common]
     bind_port = 80
     vhost_http_port = 80
-    subdomain_host = {{ .Values.tunnelsSubdomain.host }}
+    subdomain_host = {{ .Values.ingresses.tunnels.subdomainHost }}
     dashboard_port = 7500
     dashboard_user = admin
     dashboard_pwd = admin

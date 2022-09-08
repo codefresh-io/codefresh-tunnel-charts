@@ -49,7 +49,7 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Set server deployment scale in case there is scaling or there is not
 */}}
 {{- define "codefresh-tunnel-server.deploymentScale" -}}
   {{- if .Values.scaling.enabled -}}
@@ -58,6 +58,27 @@ replicas: {{ .Values.scaling.replicaCount }}
     {{- end -}}
   {{- else -}}
 replicas: 1
+  {{- end -}}
+{{- end -}}
+
+{{/*
+Determine redis url environment variable
+*/}}
+{{- define "codefresh-tunnel-server.redis-url-env" -}}
+  {{- if .Values.scaling.enabled -}}
+    {{- if .Values.scaling.redisURL.secretKeyRef -}}
+- name: REDIS_URL
+  valueFrom:
+      {{- with .Values.scaling.redisURL.secretKeyRef }}
+    secretKeyRef:
+{{ . | toYaml | indent 6}}
+      {{- end -}}
+    {{- else if .Values.scaling.redisURL.url -}}
+- name: REDIS_URL
+  value: {{ .Values.scaling.redisURL.url }}
+    {{- else }}
+      {{ fail "ERROR: Scaling requires redisURL to be set" }}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 

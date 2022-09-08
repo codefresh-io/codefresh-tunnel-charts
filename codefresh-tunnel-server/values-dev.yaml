@@ -1,0 +1,10 @@
+scaling:
+  enabled: true
+  # Redis parameters.
+  
+  redisURL: # String or map
+    url:
+    # Or secret key ref
+    secretKeyRef:
+      name:
+      key:

@@ -1,4 +1,5 @@
-codefresh-platform-url: "https://g.codefresh.io"
+# URL of Codefresh platform
+codefreshURL: "https://g.codefresh.io"
 # Tunnel server deployment
 server:
   image:
@@ -14,27 +15,28 @@ plugin:
     tag: "ilia-medvedev-codefresh-patch-1-5e95b11"
   resources: {}
 
-# Subdomain ingress
-tunnelsSubdomain:
-  host:
-  ingressClassName: ""
-  ingressAnnotations: {}
-  # kubernetes.io/ingress.class: nginx
-  # kubernetes.io/tls-acme: "true"
-  tls:
-    enabled: false
-    secretName:
+ingresses:
+  # Subdomain ingress
+  tunnels:
+    subdomainHost: # Will be created in the form *.subdomain
+    ingressClassName: ""
+    ingressAnnotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    tls:
+      enabled: false
+      secretName:
 
-# Endpoint for tunnel registration
-tunnelRegisterEndpoint:
-  host:
-  ingressClassName: ""
-  ingressAnnotations: {}
-  # kubernetes.io/ingress.class: nginx
-  # kubernetes.io/tls-acme: "true"
-  tls:
-    enabled: false
-    secretName:
+  # Endpoint for tunnel registration
+  clientRegistration:
+    host:
+    ingressClassName: ""
+    ingressAnnotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    tls:
+      enabled: false
+      secretName:
 
 serviceAccount:
   create: true
@@ -45,18 +47,21 @@ imagePullSecrets: []
 nodeSelector: {}
 tolerations: []
 affinity: {}
+resources: {}
+podSecurityContext: {}
+podAnnotations: {}
   
 # For scaling of the tunnel server set scaling to true. This requires the router component to be created
 scaling:
-  enabled: false
+  enabled: true
   # Redis parameters.
-  redis:
-    url: 
-    username:
-    password:
-      secretKeyRef:
-        name: 
-        key:
+  
+  redisURL: # String or map
+    url:
+    # Or secret key ref
+    secretKeyRef:
+      name:
+      key:
 
   replicaCount: 2
 
@@ -77,9 +82,12 @@ scaling:
       create: true
       annotations: {}
       name: "codefresh-tunnel-router"
+    
     replicaCount: 2
+    
     resources: {}
     nodeSelector: {}
     tolerations: []
     affinity: {}
     podSecurityContext: {}
+    podAnnotations: {}
