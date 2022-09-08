@@ -107,3 +107,23 @@ Determine redis url environment variable
   {{- end -}}
 {{- end -}}
 
+{{/*
+Ingress url for tunnels
+*/}}
+{{- define "codefresh-tunnel-server.tunnels-ingress-host" -}}
+  {{- if .Values.tunnels.ingress -}}
+    {{- if .Values.tunnels.ingress.host -}}
+      {{- if .Values.tunnels.subdomainHost -}}
+        {{- if not (hasSuffix .Values.tunnels.subdomainHost .Values.tunnels.ingress.host) -}}
+          {{ fail "Ingress host for tunnels must end with subdomain" }}
+        {{- end -}}
+      {{- end -}}
+      {{ print .Values.tunnels.ingress.host | quote }}
+    {{- else if .Values.tunnels.subdomainHost -}}
+      {{ printf "%s.%s" "*" .Values.tunnels.subdomainHost | quote }}
+    {{- else -}}
+      {{ fail "subdomainHost or host must be provided for tunnels ingress"}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+

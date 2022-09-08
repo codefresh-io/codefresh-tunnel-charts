@@ -26,6 +26,7 @@ tunnels:
       asd: 'dd'
   ingress:
     enabled: true
+    host: "*.ilia-tunnels.cf-op.com"
     ingressClassName: ""
     ingressAnnotations: {}
     # kubernetes.io/ingress.class: nginx
@@ -33,3 +34,18 @@ tunnels:
     tls:
       enabled: false
       secretName:
+
+service:
+  type: ClusterIP
+  annotations:
+# This ingress will be used to register new tunnels
+ingress:
+  enabled: true
+  host: server.tunnels.asd.com
+  ingressClassName: "nginx"
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  tls:
+    enabled: true
+    secretName: aa

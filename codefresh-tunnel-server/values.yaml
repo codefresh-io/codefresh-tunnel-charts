@@ -25,7 +25,7 @@ tunnels:
     enabled: false
     host: # If not set, will create ingress in the form *.subdomain
     ingressClassName: ""
-    ingressAnnotations: {}
+    annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     tls:
@@ -39,9 +39,9 @@ service:
 # This ingress will be used to register new tunnels
 ingress:
   enabled: false
-  host: # Will be created in the form *.subdomain
-  ingressClassName: ""
-  ingressAnnotations: {}
+  host: # Host for tunnel registration
+  ingressClassName: "nginx"
+  annotations: {}
   # kubernetes.io/ingress.class: nginx
   # kubernetes.io/tls-acme: "true"
   tls:
