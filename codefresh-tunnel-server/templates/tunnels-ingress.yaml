@@ -16,12 +16,12 @@ spec:
                   name: server
             path: /
             pathType: Prefix
-  {{- if .Values.ingress.tls.enabled }}
+  {{- if .Values.tunnels.ingress.tls.enabled }}
   tls:
   - hosts:
-    - {{ .Values.ingress.host }}
-    {{- if .Values.ingress.tls.secretName }}
-    secretName: {{ .Values.ingress.tls.secretName }}
+    - {{ .Values.tunnels.ingress.host }}
+    {{- if .Values.tunnels.ingress.tls.secretName }}
+    secretName: {{ .Values.tunnels.ingress.tls.secretName }}
     {{- else }}
     {{ fail "TLS for ingress is enabled but no secretName provided"}}
     {{- end }}

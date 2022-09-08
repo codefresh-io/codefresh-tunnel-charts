@@ -3,7 +3,7 @@ scaling:
   # Redis parameters.
   
   redisURL: # String or map
-    url: 'redis://test:6379'
+    url: #'redis://test:6379'
     # Or secret key ref
     secretKeyRef:
       name:

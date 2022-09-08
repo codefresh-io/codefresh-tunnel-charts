@@ -11,13 +11,13 @@ metadata:
 spec:
   type: {{ .Values.tunnels.service.type }}
   ports:
-  - name: server
+  - name: tunnels
     targetPort: 80
     protocol: TCP
     port: 80
-  - name: dashboard
-    targetPort: 7500
-    protocol: TCP
-    port: 7500
   selector:
-    {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 4 }}
+    {{- if .Values.scaling.enabled }}
+      {{- include "codefresh-tunnel-router.selectorLabels" . | nindent 4 }}
+    {{- else}}
+      {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 4 }}
+    {{- end }}

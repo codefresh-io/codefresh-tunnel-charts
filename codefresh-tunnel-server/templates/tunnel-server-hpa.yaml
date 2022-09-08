@@ -1,0 +1,24 @@
+{{- if .Values.scaling.enabled }}
+  {{- if .Values.scaling.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "codefresh-tunnel-server.name" . }}
+  labels:
+    {{- include "codefresh-tunnel-server.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "codefresh-tunnel-server.name" . }}
+  minReplicas: {{ .Values.scaling.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.scaling.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.scaling.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.scaling.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+  {{- end }}
+ {{- end }}

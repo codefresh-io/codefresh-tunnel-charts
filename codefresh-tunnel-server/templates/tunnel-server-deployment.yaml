@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: codefresh-tunnel-server
+  name: {{ include "codefresh-tunnel-server.name" . }}
   labels:
     app: {{ include "codefresh-tunnel-server.name" .}}
     release: {{ .Release.Name }}

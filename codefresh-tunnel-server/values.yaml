@@ -86,14 +86,14 @@ scaling:
     targetCPUUtilizationPercentage: 80
 
   router:
+    service:
     nameOverride:
     image:
       repository: gcr.io/codefresh-inc/codefresh-io/frp-router
       pullPolicy: IfNotPresent
       tag: ""
       # Additional environemnt variables for router
-      env: []
-    
+    env: []
     serviceAccount:
       create: true
       annotations: {}

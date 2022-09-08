@@ -1,8 +1,10 @@
 suite: Test deployments for correct setting of Redis URL environment variable
 templates:
   - tunnel-server-deployment.yaml
+  - router-deployment.yaml
 tests:
-  - it: Should pass
+  - it: if only url is set use it
+    template: tunnel-server-deployment.yaml
     set:
       scaling.enabled: true
       scaling.redisURL.url: 'redis://test:6379'
@@ -11,7 +13,18 @@ tests:
     - equal:
         path: spec.template.spec.containers[1].env[0].value
         value: 'redis://test:6379'
-  - it: Should pass
+  - it: if only url is set use it
+    template: router-deployment.yaml
+    set:
+      scaling.enabled: true
+      scaling.redisURL.url: 'redis://test:6379'
+      scaling.redisURL.secretKeyRef: null
+    asserts:
+    - equal:
+        path: spec.template.spec.containers[0].env[0].value
+        value: 'redis://test:6379'
+  - it: If scaling is diabled there should not be a url for Redis server
+    template: tunnel-server-deployment.yaml
     set:
       scaling.enabled: false
       scaling.redisURL.url: 'redis://test:6379'
@@ -22,7 +35,17 @@ tests:
         content:
           name: REDIS_URL
           value: 'redis://test:6379'
+  - it: If scaling is diabled router shouldn't exist
+    template: router-deployment.yaml
+    set:
+      scaling.enabled: false
+      scaling.redisURL.url: 'redis://test:6379'
+      scaling.redisURL.secretKeyRef: null
+    asserts:
+    - hasDocuments:
+        count: 0
   - it: Should prefer secretKeyRef over plain url
+    template: tunnel-server-deployment.yaml
     set:
       scaling.enabled: true
       scaling.redisURL.url: 'redis://test:6379'
@@ -37,7 +60,24 @@ tests:
             secretKeyRef:
               name: 'redis-secret'
               key: 'url'
+  - it: Should prefer secretKeyRef over plain url
+    template: router-deployment.yaml
+    set:
+      scaling.enabled: true
+      scaling.redisURL.url: 'redis://test:6379'
+      scaling.redisURL.secretKeyRef.name: 'redis-secret'
+      scaling.redisURL.secretKeyRef.key: 'url'
+    asserts:
+    - contains:
+        path: spec.template.spec.containers[0].env
+        content:
+          name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: 'redis-secret'
+              key: 'url'
   - it: Should fail
+    template: tunnel-server-deployment.yaml
     set:
       scaling.enabled: true
       scaling.redisURL.url: null
