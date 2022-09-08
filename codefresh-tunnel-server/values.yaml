@@ -1,3 +1,4 @@
+fullnameOverride: asd
 # URL of Codefresh platform
 codefreshURL: "https://g.codefresh.io"
 # Tunnel server deployment
