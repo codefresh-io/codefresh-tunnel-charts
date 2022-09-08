@@ -1,27 +1,16 @@
+################################################################################################################################################################
+# Naming and labeling
+################################################################################################################################################################
+
+# -----------------------
+# Server names and labels
+# -----------------------
+
 {{/*
 Expand the name of the chart.
 */}}
 {{- define "codefresh-tunnel-server.name" -}}
 {{- default "codefresh-tunnel-server" .Values.nameOverride | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
-*/}}
-
-{{- define "codefresh-tunnel-server.fullname" -}}
-  {{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
-  {{- else }}
-{{- $name := default "codefresh-tunnel-server" .Values.nameOverride }}
-    {{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
-    {{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
-    {{- end }}
-  {{- end }}
 {{- end }}
 
 {{/*
@@ -42,12 +31,48 @@ Create the name of the service account to use
 */}}
 {{- define "codefresh-tunnel-server.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "codefresh-tunnel-server.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "codefresh-tunnel-server.name" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+# -----------------------
+# router names and labels
+# -----------------------
+{{/*
+Expand the name of the chart.
+*/}}
+{{- define "codefresh-tunnel-router.name" -}}
+{{- default "codefresh-tunnel-router" .Values.scaling.router.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "codefresh-tunnel-router.selectorLabels" -}}
+app: {{ include "codefresh-tunnel-router.name" .}}
+release: {{ .Release.Name }}
+{{- end }}
+
+{{- define "codefresh-tunnel-router.labels" -}}
+app: {{ include "codefresh-tunnel-router.name" .}}
+release: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "codefresh-tunnel-router.serviceAccountName" -}}
+  {{- if .Values.scaling.router.serviceAccount.create }}
+{{- default (include "codefresh-tunnel-router.name" .) .Values.scaling.router.serviceAccount.name }}
+  {{- else }}
+{{- default "default" .Values.scaling.router.serviceAccount.name }}
+  {{- end }}
+{{- end }}
+
+################################################################################################################################################################
+# Template logic funtions
+################################################################################################################################################################
 {{/*
 Set server deployment scale in case there is scaling or there is not
 */}}
@@ -77,7 +102,7 @@ Determine redis url environment variable
 - name: REDIS_URL
   value: {{ .Values.scaling.redisURL.url }}
     {{- else }}
-      {{ fail "ERROR: Scaling requires redisURL to be set" }}
+      {{ fail "Scaling requires redisURL to be set" }}
     {{- end -}}
   {{- end -}}
 {{- end -}}

@@ -1,0 +1,49 @@
+suite: Test deployments for correct setting of Redis URL environment variable
+templates:
+  - server-deployment.yaml
+tests:
+  - it: Should pass
+    set:
+      scaling.enabled: true
+      scaling.redisURL.url: 'redis://test:6379'
+      scaling.redisURL.secretKeyRef: null
+    asserts:
+    - equal:
+        path: spec.template.spec.containers[1].env[0].value
+        value: 'redis://test:6379'
+  - it: Should pass
+    set:
+      scaling.enabled: false
+      scaling.redisURL.url: 'redis://test:6379'
+      scaling.redisURL.secretKeyRef: null
+    asserts:
+    - notContains:
+        path: spec.template.spec.containers[1].env
+        content:
+          name: REDIS_URL
+          value: 'redis://test:6379'
+  - it: Should prefer secretKeyRef over plain url
+    set:
+      scaling.enabled: true
+      scaling.redisURL.url: 'redis://test:6379'
+      scaling.redisURL.secretKeyRef.name: 'redis-secret'
+      scaling.redisURL.secretKeyRef.key: 'url'
+    asserts:
+    - contains:
+        path: spec.template.spec.containers[1].env
+        content:
+          name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: 'redis-secret'
+              key: 'url'
+  - it: Should fail
+    set:
+      scaling.enabled: true
+      scaling.redisURL.url: null
+      scaling.redisURL.secretKeyRef.name: null
+      scaling.redisURL.secretKeyRef.key: null
+    asserts:
+      - failedTemplate:
+          errorMessage: "Scaling requires redisURL to be set"
+          

@@ -29,6 +29,10 @@ spec:
       containers:
         - name: tunnel-server
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          env:
+          {{- with .Values.env -}}
+            {{ . | toYaml | nindent 10 }}
+          {{- end }}
           imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           readinessProbe:
             tcpSocket:
@@ -54,6 +58,9 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
+          {{- with .Values.plugin.env -}}
+            {{ . | toYaml | nindent 10 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.plugin.resources | nindent 12 }}
       volumes:
