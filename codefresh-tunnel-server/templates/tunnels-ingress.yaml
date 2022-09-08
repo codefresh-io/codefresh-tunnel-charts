@@ -11,9 +11,9 @@ spec:
         paths:
           - backend:
               service:
-                name: {{ include "codefresh-tunnel-server.name" . }}
+                name: {{ include "codefresh-tunnel-server.name" . }}-tunnels
                 port:
-                  name: server
+                  name: tunnels
             path: /
             pathType: Prefix
   {{- if .Values.tunnels.ingress.tls.enabled }}

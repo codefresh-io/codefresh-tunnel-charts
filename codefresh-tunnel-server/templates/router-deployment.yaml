@@ -8,7 +8,7 @@ metadata:
     app: {{ include "codefresh-tunnel-router.name" .}}
     release: {{ .Release.Name }}
 spec:
-  replicaCount: {{ .Values.scaling.router.replicaCount }} 
+  replicas: {{ .Values.scaling.router.replicaCount }} 
   selector:
     matchLabels:
       {{- include "codefresh-tunnel-router.selectorLabels" . | nindent 6 }}
@@ -19,13 +19,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 8 }}
+        {{- include "codefresh-tunnel-router.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "codefresh-tunnel-server.serviceAccountName" . }}
+      serviceAccountName: {{ include "codefresh-tunnel-router.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.scaling.router.podSecurityContext | nindent 8 }}
       containers:

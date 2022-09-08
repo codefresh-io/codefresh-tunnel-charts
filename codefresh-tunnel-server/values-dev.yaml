@@ -1,9 +1,12 @@
+imagePullSecrets:
+- name: docker-registry
+
 scaling:
   enabled: true
   # Redis parameters.
   
   redisURL: # String or map
-    url: #'redis://test:6379'
+    url: redis://redis-master.codefresh-tunnels.svc.cluster.local:6379
     # Or secret key ref
     secretKeyRef:
       name:
@@ -27,7 +30,7 @@ tunnels:
   ingress:
     enabled: true
     host: "*.ilia-tunnels.cf-op.com"
-    ingressClassName: ""
+    ingressClassName: "nginx"
     ingressAnnotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
