@@ -29,7 +29,10 @@ tunnel:
     location: /app-proxy
     
   
-  
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "codefresh-tunnel-client"
 
 # Deployment name override for tunnel server
 nameOverride:

@@ -1,0 +1,38 @@
+################################################################################################################################################################
+# Naming and labeling
+################################################################################################################################################################
+
+# -----------------------
+# client names and labels
+# -----------------------
+
+{{/*
+Expand the name of the chart.
+*/}}
+{{- define "codefresh-tunnel-client.name" -}}
+{{- default "codefresh-tunnel-client" .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "codefresh-tunnel-client.selectorLabels" -}}
+app: {{ include "codefresh-tunnel-client.name" .}}
+release: {{ .Release.Name }}
+{{- end }}
+
+{{- define "codefresh-tunnel-client.labels" -}}
+app: {{ include "codefresh-tunnel-client.name" .}}
+release: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "codefresh-tunnel-client.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "codefresh-tunnel-client.name" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
