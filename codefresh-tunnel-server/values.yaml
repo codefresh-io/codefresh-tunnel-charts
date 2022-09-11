@@ -12,7 +12,7 @@ plugin:
   image:
     repository: gcr.io/codefresh-inc/codefresh-io/frp-codefresh-plugin
     pullPolicy: IfNotPresent
-    tag: "ilia-medvedev-codefresh-patch-1-5e95b11"
+    tag: "2022.09.11-96a7a29"
   env: []
   resources: {}
 
@@ -92,7 +92,7 @@ scaling:
     image:
       repository: gcr.io/codefresh-inc/codefresh-io/frp-router
       pullPolicy: IfNotPresent
-      tag: "2022.09.08-b802027"
+      tag: "2022.09.11-45a4cb5"
       # Additional environemnt variables for router
     env: []
     serviceAccount:
