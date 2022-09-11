@@ -30,6 +30,13 @@ spec:
         - name: tunnel-client
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           env:
+          env:
+          - name: AUTHORIZATION
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.tunnelServer.authorization.secretKeyRef.name }}
+                key: {{ .Values.tunnelServer.authorization.secretKeyRef.key }}
+                optional: false
           {{- with .Values.env -}}
             {{ . | toYaml | nindent 10 }}
           {{- end }}

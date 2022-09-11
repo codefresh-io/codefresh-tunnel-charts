@@ -14,6 +14,11 @@ tunnelServer:
     protocol: wss
     # Set tls true or false
     tls: true
+    # Authorization
+    authorization:
+      secretKeyRef:
+        name: codefresh-token
+        key: token
 
 tunnel:
   # Subdomain is defined on the sever. The client sets it's prefix. For example, if the subdomain host on server
