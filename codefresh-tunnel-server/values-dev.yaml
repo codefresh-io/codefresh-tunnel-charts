@@ -1,0 +1,54 @@
+imagePullSecrets:
+- name: docker-registry
+
+scaling:
+  enabled: true
+  # Redis parameters.
+  
+  redisURL: # String or map
+    url: redis://redis-master.codefresh-tunnels.svc.cluster.local:6379
+    # Or secret key ref
+    secretKeyRef:
+      name:
+      key:
+
+plugin:
+  env:
+  - name: asd
+    value: 'blah'
+
+service:
+  annotations:
+    asd: 'dd'
+
+tunnels:
+  subdomainHost: ilia-tunnels.cf-op.com
+  service:
+    type: ClusterIP
+    annotations:
+      asd: 'dd'
+  ingress:
+    enabled: true
+    host: "*.ilia-tunnels.cf-op.com"
+    ingressClassName: "nginx"
+    ingressAnnotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    tls:
+      enabled: false
+      secretName:
+
+service:
+  type: ClusterIP
+  annotations:
+# This ingress will be used to register new tunnels
+ingress:
+  enabled: true
+  host: server.tunnels.asd.com
+  ingressClassName: "nginx"
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  tls:
+    enabled: true
+    secretName: aa

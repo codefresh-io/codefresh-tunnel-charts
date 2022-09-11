@@ -1,0 +1,47 @@
+
+image:
+  repository: quay.io/codefresh/frpc
+  pullPolicy: IfNotPresent
+  tag: "2022.09.08-2384484"
+
+# set log level for tunnel client
+logLevel: 'info'
+
+tunnelServer:
+    host:
+    port:
+    # Do not change this
+    protocol: wss
+    # Set tls true or false
+    tls: true
+
+tunnel:
+  # Subdomain is defined on the sever. The client sets it's prefix. For example, if the subdomain host on server
+  # is tunnels.example setting this value to would make the tunnel acces
+  subdomainPrefix:
+  
+  # Where the tunnel forwards to
+  forwardTo:
+    type: http
+    host: cap-app-proxy
+    port: 3017
+    # Path on tunnel
+    location: /app-proxy
+    
+  
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "codefresh-tunnel-client"
+
+# Deployment name override for tunnel server
+nameOverride:
+# Additional environemnt variables for server
+env: []
+imagePullSecrets: []
+nodeSelector: {}
+tolerations: []
+affinity: {}
+resources: {}
+podSecurityContext: {}
+podAnnotations: {}
