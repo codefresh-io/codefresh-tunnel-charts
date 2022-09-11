@@ -9,7 +9,7 @@ logLevel: 'info'
 
 tunnelServer:
     host:
-    port:
+    port: 443
     # Do not change this
     protocol: wss
     # Set tls true or false
