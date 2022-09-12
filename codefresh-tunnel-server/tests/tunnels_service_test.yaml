@@ -1,0 +1,52 @@
+suite: Test tunnel server
+templates:
+  - tunnels-service.yaml
+tests:
+  - it: If scaling disabled the selector should point to tunnel server
+    set:
+      scaling.enabled: false
+      nameOverride: 'codefresh-tunnel-server'
+      scaling.router.nameOverride: 'codefresh-tunnel-router'
+      tunnels.service.type: ClusterIP
+    release:
+      name: my-release
+    asserts:
+      - contains:
+          path: spec.ports
+          content:
+            port: 80
+            targetPort: 80
+            protocol: TCP
+            name: tunnels
+      - equal:
+          path: spec.type
+          value: ClusterIP
+      - equal:
+          path: spec.selector
+          value:
+            app: codefresh-tunnel-server
+            release: my-release
+  - it: If scaling enabled the selector should point to router
+    set:
+      scaling.enabled: true
+      nameOverride: 'codefresh-tunnel-server'
+      scaling.router.nameOverride: 'codefresh-tunnel-router'
+      tunnels.service.type: ClusterIP
+    release:
+      name: my-release
+    asserts:
+      - contains:
+          path: spec.ports
+          content:
+            port: 80
+            targetPort: 80
+            protocol: TCP
+            name: tunnels
+      - equal:
+          path: spec.type
+          value: ClusterIP
+      - equal:
+          path: spec.selector
+          value:
+            app: codefresh-tunnel-router
+            release: my-release

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "codefresh-tunnel-server.name" . }}-tunnels
+  labels:
+    {{- include "codefresh-tunnel-server.labels" . | nindent 4 }}
+  annotations:
+  {{- with .Values.tunnels.service.annotations -}}
+  {{ . | toYaml | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.tunnels.service.type }}
+  ports:
+  - name: tunnels
+    targetPort: 80
+    protocol: TCP
+    port: 80
+  selector:
+    {{- if .Values.scaling.enabled }}
+      {{- include "codefresh-tunnel-router.selectorLabels" . | nindent 4 }}
+    {{- else}}
+      {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 4 }}
+    {{- end }}

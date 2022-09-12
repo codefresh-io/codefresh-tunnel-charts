@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "codefresh-tunnel-server.name" . }}
+  labels:
+    app: {{ include "codefresh-tunnel-server.name" .}}
+    release: {{ .Release.Name }}
+spec:
+{{- include "codefresh-tunnel-server.deploymentScale" . | nindent 2 }}  
+  selector:
+    matchLabels:
+      {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "codefresh-tunnel-server.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: tunnel-server
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          env:
+          {{- with .Values.env -}}
+            {{ . | toYaml | nindent 10 }}
+          {{- end }}
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /etc/frp
+              name: server-config
+        - name: codefresh-plugin
+          image: "{{ .Values.plugin.image.repository }}:{{ .Values.plugin.image.tag}}"
+          imagePullPolicy: {{ .Values.plugin.image.pullPolicy }}
+          command: ["frp-codefresh-plugin"]
+          args:
+          - --bind-addr=0.0.0.0:7200
+          - --cf-base-url={{ .Values.codefreshBaseUrl }}
+          env:
+          {{- include "codefresh-tunnel-server.redis-url-env" . | nindent 10 }}
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: SERVER_MODE
+            value: debug
+          {{- with .Values.plugin.env -}}
+            {{ . | toYaml | nindent 10 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.plugin.resources | nindent 12 }}
+      volumes:
+        - name: server-config
+          projected:
+            sources:
+              - configMap:
+                  name: codefresh-tunnel-server-config
+                  optional: false
+                  items:
+                    - key: frps.ini
+                      path: frps.ini
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

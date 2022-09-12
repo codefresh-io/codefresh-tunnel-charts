@@ -1,0 +1,14 @@
+{{- if .Values.scaling.enabled }}
+  {{- if .Values.scaling.router.serviceAccount.create -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "codefresh-tunnel-router.serviceAccountName" . }}
+  labels:
+    {{- include "codefresh-tunnel-router.labels" . | nindent 4 }}
+    {{- with .Values.scaling.router.serviceAccount.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- end }}
+{{- end}}

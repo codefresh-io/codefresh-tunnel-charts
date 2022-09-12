@@ -1,0 +1,109 @@
+# URL of Codefresh platform
+codefreshBaseUrl: https://g.codefresh.io
+# Tunnel server deployment
+server:
+  image:
+    repository: quay.io/codefresh/frps
+    pullPolicy: IfNotPresent
+    tag: "2022.09.08-2384484"
+  resources: {}
+
+plugin:
+  image:
+    repository: gcr.io/codefresh-inc/codefresh-io/frp-codefresh-plugin
+    pullPolicy: IfNotPresent
+    tag: "2022.09.11-96a7a29"
+  env: []
+  resources: {}
+
+tunnels:
+  subdomainHost: # Will be created in the form *.subdomain
+  service:
+    type: ClusterIP
+    annotations:
+  ingress:
+    enabled: false
+    host: # If not set, will create ingress in the form *.subdomain
+    ingressClassName: ""
+    annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    tls:
+      enabled: false
+      secretName:
+
+# The serive of the tunnel server
+service:
+  type: ClusterIP
+  annotations:
+# This ingress will be used to register new tunnels
+ingress:
+  enabled: false
+  host: # Host for tunnel registration
+  ingressClassName: "nginx"
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  tls:
+    enabled: false
+    secretName:
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "codefresh-tunnel-server"
+
+# Deployment name override for tunnel server
+nameOverride: 
+# Additional environemnt variables for server
+env: []
+imagePullSecrets: []
+nodeSelector: {}
+tolerations: []
+affinity: {}
+resources: {}
+podSecurityContext: {}
+podAnnotations: {}
+  
+# For scaling of the tunnel server set scaling to true. This requires the router component to be created
+scaling:
+  enabled: true
+  # Redis parameters.
+  redisURL:
+    # Set either plain URL or a reference to an existing secret
+    url:
+    # Or secret key ref
+    secretKeyRef:
+      name:
+      key:
+
+  replicaCount: 2
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+
+  router:
+    service:
+      type:
+    nameOverride:
+    image:
+      repository: gcr.io/codefresh-inc/codefresh-io/frp-router
+      pullPolicy: IfNotPresent
+      tag: "2022.09.11-45a4cb5"
+      # Additional environemnt variables for router
+    env: []
+    serviceAccount:
+      create: true
+      annotations: {}
+      name: "codefresh-tunnel-router"
+    
+    replicaCount: 2
+    resources: {}
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    podSecurityContext: {}
+    podAnnotations: {}
