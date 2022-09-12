@@ -1,0 +1,14 @@
+server:
+  image:
+    repository: myrepo/tunnel-server
+    tag: "1"
+plugin:
+  image:
+    repository: myrepo/tunnel-plugin
+    tag: "2"
+scaling:
+  enabled: true
+  router:
+    image: 
+      repository: myrepo/tunnel-router
+      tag: "3"

@@ -1,0 +1,56 @@
+
+{{- if .Values.scaling.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "codefresh-tunnel-router.name" . }}
+  labels:
+    app: {{ include "codefresh-tunnel-router.name" .}}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.scaling.router.replicaCount }} 
+  selector:
+    matchLabels:
+      {{- include "codefresh-tunnel-router.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.scaling.router.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "codefresh-tunnel-router.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "codefresh-tunnel-router.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.scaling.router.podSecurityContext | nindent 8 }}
+      containers:
+        - name: tunnel-router
+          image: "{{ .Values.scaling.router.image.repository }}:{{ .Values.scaling.router.image.tag }}"
+          env:
+          {{- include "codefresh-tunnel-server.redis-url-env" . | nindent 10 }}
+          - name: BIND_ADDR
+            value: 0.0.0.0:80
+          {{- with .Values.scaling.router.env -}}
+            {{ . | toYaml | nindent 10 }}
+          {{- end }}
+          imagePullPolicy: {{ .Values.scaling.router.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.scaling.router.resources | nindent 12 }}
+      {{- with .Values.scaling.router.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.scaling.router.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.scaling.router.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

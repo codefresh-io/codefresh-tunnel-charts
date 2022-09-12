@@ -1,0 +1,49 @@
+suite: Test tunnels ingress
+templates:
+  - tunnels-ingress.yaml
+tests:
+  - it: Should equal to host when only host is set
+    set:
+      tunnels.ingress.enabled: true
+      tunnels.subdomainHost: null
+      tunnels.ingress.host: "*.tunnels.example.com"
+    asserts:
+    - equal:
+        path: spec.rules[0].host
+        value: "*.tunnels.example.com"
+  - it: Should equal to *.subdomain if only subdomain is set
+    set:
+      tunnels.ingress.enabled: true
+      tunnels.subdomainHost: tunnels.example.com
+      tunnels.ingress.host: null
+    asserts:
+    - equal:
+        path: spec.rules[0].host
+        value: "*.tunnels.example.com"
+  - it: Should prefer host when both set
+    set:
+      tunnels.ingress.enabled: true
+      tunnels.subdomainHost: tunnels.example.com
+      tunnels.ingress.host: "*.server1.tunnels.example.com"
+    asserts:
+    - equal:
+        path: spec.rules[0].host
+        value: "*.server1.tunnels.example.com"
+  - it: When both subdomain and host are provided, host must end with subdomain
+    set:
+      tunnels.ingress.enabled: true
+      tunnels.subdomainHost: tunnels.example.com
+      tunnels.ingress.host: "*.server1.tunnels.different.com"
+    asserts:
+      - failedTemplate:
+          errorMessage: "Ingress host for tunnels must end with subdomain"
+  - it: When non are provided should fail
+    set:
+      tunnels.ingress.enabled: true
+      tunnels.subdomainHost: null
+      tunnels.ingress.host: null
+    asserts:
+      - failedTemplate:
+          errorMessage: "subdomainHost or host must be provided for tunnels ingress"
+          
+  

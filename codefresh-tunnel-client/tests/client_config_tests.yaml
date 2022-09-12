@@ -1,0 +1,10 @@
+suite: Test tunnels ingress
+templates:
+  - client-config.yaml
+tests:
+  - it: When non are provided should fail
+    values:
+    - missing-server.yaml
+    asserts:
+      - failedTemplate:
+          errorMessage: "tunnelServer.host is required"

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: codefresh-tunnel-client
+description: Codefresh tunnel client for ingressless operation of runtimes
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
