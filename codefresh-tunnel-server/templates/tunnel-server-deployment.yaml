@@ -55,13 +55,15 @@ spec:
           command: ["frp-codefresh-plugin"]
           args:
           - --bind-addr=0.0.0.0:7200
-          - --cf-base-url={{ .Values.codefreshBaseUrl | quote }}
+          - --cf-base-url={{ .Values.codefreshBaseUrl }}
           env:
           {{- include "codefresh-tunnel-server.redis-url-env" . | nindent 10 }}
           - name: MY_POD_IP
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
+          - name: SERVER_MODE
+            value: debug
           {{- with .Values.plugin.env -}}
             {{ . | toYaml | nindent 10 }}
           {{- end }}

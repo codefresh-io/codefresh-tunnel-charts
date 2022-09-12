@@ -24,4 +24,4 @@
 
 # Chart testing and development
 tests/
-values-dev.yaml
+values-*.yaml
