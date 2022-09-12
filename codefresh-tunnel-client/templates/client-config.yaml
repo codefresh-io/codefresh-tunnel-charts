@@ -22,5 +22,5 @@ data:
     local_ip = {{ required "tunnel.forwardTo.host is required" .Values.tunnel.forwardTo.host }}
     local_port = {{ required "tunnel.forwardTo.port is required" .Values.tunnel.forwardTo.port }}
     locations = {{ default "/" .Values.tunnel.forwardTo.location }}
-    subdomain = .Values.tunnel.subdomainPrefix
+    subdomain = {{ .Values.tunnel.subdomainPrefix }}
     header_Authorization = {{"{{"}} .Envs.AUTHORIZATION {{"}}"}}
