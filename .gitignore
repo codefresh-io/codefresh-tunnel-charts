@@ -2,3 +2,5 @@ reference_manifests
 **/__snapshot__
 
 .idea
+
+**/values-*.yaml
