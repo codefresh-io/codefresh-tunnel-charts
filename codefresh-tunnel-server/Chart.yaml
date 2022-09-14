@@ -4,3 +4,8 @@ description: Codefresh tunnel server for ingressless operation of runtimes
 type: application
 version: 0.1.0
 appVersion: "0.1.0"
+dependencies:
+- name: redis
+  version: 17.1.4
+  repository: https://charts.bitnami.com/bitnami
+  condition: redis.enabled

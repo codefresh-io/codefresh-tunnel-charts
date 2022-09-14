@@ -54,7 +54,7 @@ serviceAccount:
   name: "codefresh-tunnel-server"
 
 # Deployment name override for tunnel server
-nameOverride: 
+nameOverride:
 # Additional environemnt variables for server
 env: []
 imagePullSecrets: []
@@ -64,7 +64,7 @@ affinity: {}
 resources: {}
 podSecurityContext: {}
 podAnnotations: {}
-  
+
 # For scaling of the tunnel server set scaling to true. This requires the router component to be created
 scaling:
   enabled: true
@@ -99,7 +99,7 @@ scaling:
       create: true
       annotations: {}
       name: "codefresh-tunnel-router"
-    
+
     replicaCount: 2
     resources: {}
     nodeSelector: {}
@@ -107,3 +107,14 @@ scaling:
     affinity: {}
     podSecurityContext: {}
     podAnnotations: {}
+
+# enables bitnami/redis subchart
+redis:
+  enabled: false
+  architecture: standalone
+  fullnameOverride: redis-tunnel-server
+  auth:
+    enabled: false
+  master:
+    persistence:
+      size: 100Mi
