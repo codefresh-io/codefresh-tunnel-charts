@@ -1,0 +1,29 @@
+suite: Test client config
+templates:
+  - client-config.yaml
+tests:
+  - it: When non are provided should fail
+    values:
+    - values/missing-server.yaml
+    asserts:
+      - failedTemplate:
+          errorMessage: "tunnelServer.host is required"
+  - it: Forward to is possible to corresponts to values
+    values:
+    - values/required-values.yaml
+    - values/forward-to.yaml
+    asserts:
+    - matchRegex: 
+        path: data.frpc\.ini
+        pattern: ".*local_ip = test.*"
+    - matchRegex: 
+        path: data.frpc\.ini
+        pattern: ".*local_port = 1234.*"
+    - matchRegex: 
+        path: data.frpc\.ini
+        pattern: ".*locations = /test.*"
+    - matchRegex: 
+        path: data.frpc\.ini
+        pattern: '.mysubdomain.*'
+
+    

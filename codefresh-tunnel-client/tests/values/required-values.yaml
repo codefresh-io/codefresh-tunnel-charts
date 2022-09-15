@@ -1,0 +1,7 @@
+tunnelServer:
+    host: server
+    port: 443
+tunnel:
+  # Subdomain is defined on the sever. The client sets it's prefix. For example, if the subdomain host on server
+  # is tunnels.example setting this value to would make the tunnel acces
+  subdomainPrefix: mysubdomain
