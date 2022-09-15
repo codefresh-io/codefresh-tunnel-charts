@@ -111,10 +111,3 @@ scaling:
 # enables bitnami/redis subchart
 redis:
   enabled: false
-  architecture: standalone
-  fullnameOverride: redis-tunnel-server
-  auth:
-    enabled: false
-  master:
-    persistence:
-      size: 100Mi
