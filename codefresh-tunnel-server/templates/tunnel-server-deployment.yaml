@@ -6,14 +6,15 @@ metadata:
     app: {{ include "codefresh-tunnel-server.name" .}}
     release: {{ .Release.Name }}
 spec:
-{{- include "codefresh-tunnel-server.deploymentScale" . | nindent 2 }}  
+{{- include "codefresh-tunnel-server.deploymentScale" . | nindent 2 }}
   selector:
     matchLabels:
       {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/server-config.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
