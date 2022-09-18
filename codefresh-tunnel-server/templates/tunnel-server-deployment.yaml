@@ -5,6 +5,8 @@ metadata:
   labels:
     app: {{ include "codefresh-tunnel-server.name" .}}
     release: {{ .Release.Name }}
+  annotations:
+      checksum/config: {{ include (print $.Template.BasePath "/server-config.yaml") . | sha256sum }}
 spec:
 {{- include "codefresh-tunnel-server.deploymentScale" . | nindent 2 }}  
   selector:

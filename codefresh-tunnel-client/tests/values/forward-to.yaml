@@ -1,0 +1,11 @@
+tunnelServer:
+    host: server
+    port: 443
+
+tunnel:
+  subdomainPrefix: mysubdomain
+  forwardTo:
+    type: http
+    host: test
+    port: 1234
+    location: /test

@@ -1,0 +1,71 @@
+suite: Test deployments
+templates:
+  - tunnel-server-deployment.yaml
+  - router-deployment.yaml
+  - server-config.yaml
+tests:
+  - it: Server image
+    template: tunnel-server-deployment.yaml
+    values:
+      - ./values/images.yaml
+    asserts:
+    - equal:
+          path: spec.template.spec.containers[0].image
+          value: myrepo/tunnel-server:1
+  - it: plugin image
+    template: tunnel-server-deployment.yaml
+    values:
+      - ./values/images.yaml
+    asserts:
+    - equal:
+          path: spec.template.spec.containers[1].image
+          value: myrepo/tunnel-plugin:2
+  - it: router image
+    template: router-deployment.yaml
+    values:
+      - ./values/images.yaml
+    asserts:
+    - equal:
+          path: spec.template.spec.containers[0].image
+          value: myrepo/tunnel-router:3
+  - it: Config hash exists
+    template: tunnel-server-deployment.yaml
+    values:
+    - ./values/deployment-tests.yaml
+    asserts:
+      - isNotNull: 
+          path: metadata.annotations.checksum/config
+  - it: server resources set
+    template: tunnel-server-deployment.yaml
+    values:
+      - ./values/deployment-tests.yaml
+    asserts:
+    - equal:
+          path: spec.template.spec.containers[0].resources.requests.memory
+          value: '100Mi'
+    - equal:
+          path: spec.template.spec.containers[0].resources.requests.cpu
+          value: '100m'
+  - it: plugin resources set
+    template: tunnel-server-deployment.yaml
+    values:
+      - ./values/deployment-tests.yaml
+    asserts:
+    - equal:
+          path: spec.template.spec.containers[1].resources.requests.memory
+          value: '100Mi'
+    - equal:
+          path: spec.template.spec.containers[1].resources.requests.cpu
+          value: '100m'
+  - it: router resources set
+    template: router-deployment.yaml
+    values:
+      - ./values/deployment-tests.yaml
+    asserts:
+    - equal:
+          path: spec.template.spec.containers[0].resources.requests.memory
+          value: '100Mi'
+    - equal:
+          path: spec.template.spec.containers[0].resources.requests.cpu
+          value: '100m'
+  
