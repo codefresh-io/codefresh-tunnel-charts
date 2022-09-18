@@ -1,0 +1,24 @@
+server:
+  resources:
+    requests:
+      cpu: '100m'
+      memory: '100Mi'
+
+plugin:
+  resources:
+    requests:
+      cpu: '100m'
+      memory: '100Mi'
+
+scaling:
+  enabled: true
+  redisURL:
+    url: 'test'
+  router:
+    resources:
+      requests:
+        cpu: '100m'
+        memory: '100Mi'
+      
+
+      

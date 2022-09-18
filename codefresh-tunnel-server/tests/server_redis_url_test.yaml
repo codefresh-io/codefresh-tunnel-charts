@@ -2,6 +2,7 @@ suite: Test deployments for correct setting of Redis URL environment variable
 templates:
   - tunnel-server-deployment.yaml
   - router-deployment.yaml
+  - server-config.yaml
 tests:
   - it: if only url is set use it
     template: tunnel-server-deployment.yaml
