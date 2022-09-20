@@ -4,7 +4,6 @@ metadata:
   name: codefresh-tunnel-client-config
 data:
   frpc.ini: |-
-    frpc.ini: |-
     [common]
     server_addr = {{ required "tunnelServer.host is required" .Values.tunnelServer.host }}
     server_port = {{ required "tunnelServer.port is required" .Values.tunnelServer.port }}

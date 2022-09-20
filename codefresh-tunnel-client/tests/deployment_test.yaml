@@ -1,0 +1,21 @@
+suite: Test client deployment
+templates:
+  - deployment.yaml
+  - client-config.yaml
+tests:
+  - it: Config hash exists
+    values:
+    - values/required-values.yaml
+    template: deployment.yaml
+    asserts:
+      - isNotNull: 
+          path: metadata.annotations.checksum/config
+  - it: Image correctly set
+    template: deployment.yaml
+    values:
+    - values/required-values.yaml
+    - values/image.yaml
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: myrepo/tunnel-client:1
