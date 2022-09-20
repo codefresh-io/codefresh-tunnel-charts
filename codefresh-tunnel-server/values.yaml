@@ -111,3 +111,7 @@ scaling:
 # enables bitnami/redis subchart
 redis:
   enabled: false
+
+# enables bitnami/redis-cluster subchart
+redis-cluster:
+  enabled: false
