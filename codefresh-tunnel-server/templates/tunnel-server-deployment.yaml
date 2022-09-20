@@ -14,9 +14,8 @@ spec:
       {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      annotations:
-        checksum/config: {{ print $.Template.BasePath "/server-config.yaml" | sha256sum }}
       {{- with .Values.podAnnotations }}
+      annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
