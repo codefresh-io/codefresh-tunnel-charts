@@ -4,3 +4,10 @@ reference_manifests
 .idea
 
 **/values-*.yaml
+
+# helm template
+dry-run/**
+
+# dependency charts
+**/charts/*.tgz
+*.tgz

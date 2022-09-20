@@ -8,7 +8,7 @@ metadata:
   annotations:
       checksum/config: {{ include (print $.Template.BasePath "/server-config.yaml") . | sha256sum }}
 spec:
-{{- include "codefresh-tunnel-server.deploymentScale" . | nindent 2 }}  
+{{- include "codefresh-tunnel-server.deploymentScale" . | nindent 2 }}
   selector:
     matchLabels:
       {{- include "codefresh-tunnel-server.selectorLabels" . | nindent 6 }}
