@@ -30,7 +30,12 @@ tunnels:
     # kubernetes.io/tls-acme: "true"
     tls:
       enabled: false
-      secretName:
+      # Existing secret with TLS certificate
+      existingSecret:
+      # Custom certificate (base64 encoded)
+      cert: ""
+      # Custom private key (base64 encoded)
+      key: ""
 
 # The serive of the tunnel server
 service:
@@ -46,7 +51,12 @@ ingress:
   # kubernetes.io/tls-acme: "true"
   tls:
     enabled: false
-    secretName:
+    # Existing secret with TLS certificate
+    existingSecret:
+    # Custom certificate (base64 encoded)
+    cert: ""
+    # Custom private key (base64 encoded)
+    key: ""
 
 serviceAccount:
   create: true
