@@ -32,7 +32,6 @@ spec:
         - name: tunnel-client
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           env:
-          env:
           - name: AUTHORIZATION
             valueFrom:
               secretKeyRef:
