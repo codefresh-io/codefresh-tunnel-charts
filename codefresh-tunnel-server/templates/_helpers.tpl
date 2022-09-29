@@ -127,3 +127,45 @@ Ingress url for tunnels
   {{- end -}}
 {{- end -}}
 
+
+{{/*
+Return true if a TLS secret object should be created for tunnels ingress
+*/}}
+{{- define "codefresh-tunnel-server.tunnels.createTlsSecret" -}}
+{{- if and .Values.tunnels.ingress.tls.enabled (not .Values.tunnels.ingress.tls.existingSecret) }}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return true if a TLS secret object should be created for tunnel server
+*/}}
+{{- define "codefresh-tunnel-server.createTlsSecret" -}}
+{{- if and .Values.ingress.tls.enabled (not .Values.ingress.tls.existingSecret) }}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the secret containing TLS certificates for tunnels ingress
+*/}}
+{{- define "codefresh-tunnel-server.tunnels.tlsSecretName" -}}
+{{- $secretName := .Values.tunnels.ingress.tls.existingSecret -}}
+{{- if $secretName -}}
+    {{- printf "%s" (tpl $secretName $) -}}
+{{- else -}}
+    {{- printf "%s-tunnels-cert" (include "codefresh-tunnel-server.name" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the secret containing TLS certificates for tunnel server
+*/}}
+{{- define "codefresh-tunnel-server.tlsSecretName" -}}
+{{- $secretName := .Values.ingress.tls.existingSecret -}}
+{{- if $secretName -}}
+    {{- printf "%s" (tpl $secretName $) -}}
+{{- else -}}
+    {{- printf "%s-cert" (include "codefresh-tunnel-server.name" .) -}}
+{{- end -}}
+{{- end -}}

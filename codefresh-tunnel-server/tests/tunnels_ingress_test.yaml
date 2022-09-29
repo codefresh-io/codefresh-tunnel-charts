@@ -45,5 +45,3 @@ tests:
     asserts:
       - failedTemplate:
           errorMessage: "subdomainHost or host must be provided for tunnels ingress"
-          
-  

@@ -19,11 +19,7 @@ spec:
   {{- if .Values.tunnels.ingress.tls.enabled }}
   tls:
   - hosts:
-    - {{ .Values.tunnels.ingress.host }}
-    {{- if .Values.tunnels.ingress.tls.secretName }}
-    secretName: {{ .Values.tunnels.ingress.tls.secretName }}
-    {{- else }}
-    {{ fail "TLS for ingress is enabled but no secretName provided"}}
-    {{- end }}
+    - {{ include "codefresh-tunnel-server.tunnels-ingress-host" . }}
+    secretName: {{ include "codefresh-tunnel-server.tunnels.tlsSecretName" . }}
   {{- end }}
 {{- end }}

@@ -1,0 +1,16 @@
+suite: Test tunnels ingress tls secret
+templates:
+  - tunnel-server-ingress.yaml
+  - tunnel-server-tls-secret.yaml
+tests:
+  - it: Should equal to existingSecret when existingSecret is set
+    template: tunnel-server-ingress.yaml
+    set:
+      ingress.enabled: true
+      host: register-tunnels.example.com
+      ingress.tls.enabled: true
+      ingress.tls.existingSecret: my-existing-secret
+    asserts:
+    - equal:
+        path: spec.tls[0].secretName
+        value: "my-existing-secret"
