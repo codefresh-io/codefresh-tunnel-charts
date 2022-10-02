@@ -11,7 +11,7 @@ tunnelServer:
     host:
     port: 80
     # Do not change this
-    protocol: wss
+    protocol: websocket
     # Set tls true or false
     tls: false
     # Authorization
