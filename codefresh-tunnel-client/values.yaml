@@ -9,11 +9,11 @@ logLevel: 'info'
 
 tunnelServer:
     host:
-    port: 443
+    port: 80
     # Do not change this
     protocol: wss
     # Set tls true or false
-    tls: true
+    tls: false
     # Authorization
     authorization:
       secretKeyRef:
