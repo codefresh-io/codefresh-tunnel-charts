@@ -8,9 +8,7 @@ data:
     server_addr = {{ required "tunnelServer.host is required" .Values.tunnelServer.host }}
     server_port = {{ required "tunnelServer.port is required" .Values.tunnelServer.port }}
     log_level = {{ default "info" .Values.logLevel }}
-    tls_enable = {{ default "true" .Values.tunnelServer.tls }}
-    tls_trusted_ca_file = /etc/ssl/certs/ca-certificates.crt
-    disable_custom_tls_first_byte = true
+    tls_enable = {{ default "false" .Values.tunnelServer.tls }}
     protocol = {{ default "wss" .Values.tunnelServer.protocol }}
     admin_addr = 127.0.0.1
     admin_port = 7400
