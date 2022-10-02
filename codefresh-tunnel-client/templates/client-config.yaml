@@ -23,4 +23,4 @@ data:
     locations = {{ default "/" .Values.tunnel.forwardTo.location }}
     subdomain = {{ .Values.tunnel.subdomainPrefix }}
     meta_Authorization = {{"{{"}} .Envs.AUTHORIZATION {{"}}"}}
-    ips_allow_list = {{ default "" .Values.tunnel.ipAllowList }}
+    ips_allow_list = {{ default "" .Values.tunnel.ipsAllowList }}

@@ -26,7 +26,7 @@ tunnel:
   subdomainPrefix:
 
   # lists the rules to configure which IP addresses and subnet masks can access your client
-  ipAllowList: ""
+  ipsAllowList: ""
   
   # Where the tunnel forwards to
   forwardTo:
