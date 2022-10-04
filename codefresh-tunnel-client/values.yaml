@@ -2,18 +2,18 @@
 image:
   repository: quay.io/codefresh/frpc
   pullPolicy: IfNotPresent
-  tag: "CR-14344-af16495"
+  tag: "CR-14344-b51ebe1"
 
 # set log level for tunnel client
 logLevel: 'info'
 
 tunnelServer:
     host:
-    port: 80
+    port: 443
     # Do not change this
-    protocol: websocket
+    protocol: wss
     # Set tls true or false
-    tls: false
+    tls: true
     # Authorization
     authorization:
       secretKeyRef:
