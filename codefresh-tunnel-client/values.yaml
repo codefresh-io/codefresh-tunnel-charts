@@ -2,7 +2,7 @@
 image:
   repository: quay.io/codefresh/frpc
   pullPolicy: IfNotPresent
-  tag: "2022.09.08-2384484"
+  tag: "2022.10.09-b0811fd"
 
 # set log level for tunnel client
 logLevel: 'info'
@@ -24,6 +24,9 @@ tunnel:
   # Subdomain is defined on the sever. The client sets it's prefix. For example, if the subdomain host on server
   # is tunnels.example setting this value to would make the tunnel acces
   subdomainPrefix:
+
+  # lists the rules to configure which IP addresses and subnet masks can access your client
+  ipsAllowList: ""
   
   # Where the tunnel forwards to
   forwardTo:

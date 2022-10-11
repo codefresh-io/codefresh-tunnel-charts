@@ -2,6 +2,7 @@ reference_manifests
 **/__snapshot__
 
 .idea
+.DS_Store
 
 **/values-*.yaml
 
