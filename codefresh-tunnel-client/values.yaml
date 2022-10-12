@@ -31,10 +31,8 @@ tunnel:
   # Where the tunnel forwards to
   forwardTo:
     type: http
-    host: cap-app-proxy
-    port: 3017
-    # Path on tunnel
-    location: /app-proxy
+    host: internal-router
+    port: 80
     
   
 serviceAccount:
