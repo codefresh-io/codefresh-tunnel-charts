@@ -24,6 +24,7 @@ release: {{ .Release.Name }}
 {{- define "codefresh-tunnel-client.labels" -}}
 app: {{ include "codefresh-tunnel-client.name" .}}
 release: {{ .Release.Name }}
+app.kubernetes.io/part-of: codefresh-tunnel-client
 {{- end }}
 
 {{/*

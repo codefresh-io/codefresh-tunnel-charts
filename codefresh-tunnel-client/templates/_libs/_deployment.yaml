@@ -1,0 +1,76 @@
+{{/*
+Deployment template
+*/}}
+{{- define "codefresh-tunnel-client.deployment" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "codefresh-tunnel-client.name" . }}
+  labels:
+    app: {{ include "codefresh-tunnel-client.name" .}}
+    release: {{ .Release.Name }}
+  annotations:
+      checksum/config: {{ include (print $.Template.BasePath "/client-config.yaml") . | sha256sum }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "codefresh-tunnel-client.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "codefresh-tunnel-client.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "codefresh-tunnel-client.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: tunnel-client
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          env:
+          - name: AUTHORIZATION
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.tunnelServer.authorization.secretKeyRef.name }}
+                key: {{ .Values.tunnelServer.authorization.secretKeyRef.key }}
+                optional: false
+          {{- with .Values.env -}}
+            {{ . | toYaml | nindent 10 }}
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /etc/frp
+              name: client-config
+      volumes:
+        - name: client-config
+          projected:
+            sources:
+              - configMap:
+                  name: codefresh-tunnel-client-config
+                  optional: false
+                  items:
+                    - key: frpc.ini
+                      path: frpc.ini
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

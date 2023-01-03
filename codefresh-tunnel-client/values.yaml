@@ -1,3 +1,6 @@
+# Defines if library mode is used for tunnel client. No templates are generated when using this mode.
+# Added to support usage in codefresh-gitops-runtime Helm chart
+libraryMode: true
 
 image:
   repository: quay.io/codefresh/frpc
@@ -32,6 +35,7 @@ tunnel:
   forwardTo:
     type: http
     host: internal-router
+    location: "/"
     port: 80
     
   
