@@ -1,6 +1,6 @@
 # Defines if library mode is used for tunnel client. No templates are generated when using this mode.
 # Added to support usage in codefresh-gitops-runtime Helm chart
-libraryMode: true
+libraryMode: false
 
 image:
   repository: quay.io/codefresh/frpc
