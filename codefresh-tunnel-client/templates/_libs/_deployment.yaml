@@ -10,7 +10,7 @@ metadata:
     app: {{ include "codefresh-tunnel-client.name" .}}
     release: {{ .Release.Name }}
   annotations:
-      checksum/config: {{ include (print $.Template.BasePath "/client-config.yaml") . | sha256sum }}
+      checksum/config: {{ include "codefresh-tunnel-client.config" . | sha256sum }}
 spec:
   replicas: 1
   selector:
