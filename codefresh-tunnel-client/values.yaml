@@ -27,6 +27,9 @@ tunnel:
   # Subdomain is defined on the sever. The client sets it's prefix. For example, if the subdomain host on server
   # is tunnels.example setting this value to would make the tunnel acces
   subdomainPrefix:
+  # Subdomain host as defined on the server. This is not actually used in any of the templates in the client chart. Rather, this is required
+  # in the chart that installs the runtime
+  subdomainHost:
 
   # lists the rules to configure which IP addresses and subnet masks can access your client
   ipsAllowList: ""
