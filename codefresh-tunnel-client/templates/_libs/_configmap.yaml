@@ -6,6 +6,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: codefresh-tunnel-client-config
+  labels:
+    {{- include "codefresh-tunnel-client.labels" . | nindent 4 }}
 data:
   frpc.ini: |-
     [common]

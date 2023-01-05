@@ -1,0 +1,20 @@
+suite: Test client service account
+templates:
+  - tunnel-client-sa.yaml
+tests:
+  - it: name set correctly
+    values:
+    - values/required-values.yaml
+    template: tunnel-client-sa.yaml
+    asserts:
+      - equal:
+          path: metadata.name
+          value: codefresh-tunnel-client
+  - it: part of label is set
+    values:
+    - values/required-values.yaml
+    template: tunnel-client-sa.yaml
+    asserts:
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/part-of
+          value: codefresh-tunnel-client

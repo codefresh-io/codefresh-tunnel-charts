@@ -7,8 +7,7 @@ kind: Deployment
 metadata:
   name: {{ include "codefresh-tunnel-client.name" . }}
   labels:
-    app: {{ include "codefresh-tunnel-client.name" .}}
-    release: {{ .Release.Name }}
+    {{- include "codefresh-tunnel-client.labels" . | nindent 4 }}
   annotations:
       checksum/config: {{ include "codefresh-tunnel-client.config" . | sha256sum }}
 spec:
@@ -34,7 +33,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: tunnel-client
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           env:
           - name: AUTHORIZATION
             valueFrom:

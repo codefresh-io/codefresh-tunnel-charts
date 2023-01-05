@@ -19,3 +19,11 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].image
           value: myrepo/tunnel-client:1
+  - it: part of label is set
+    values:
+    - values/required-values.yaml
+    template: deployment.yaml
+    asserts:
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/part-of
+          value: codefresh-tunnel-client

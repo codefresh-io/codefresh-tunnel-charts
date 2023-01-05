@@ -25,5 +25,13 @@ tests:
     - matchRegex: 
         path: data.frpc\.ini
         pattern: '.mysubdomain.*'
+  - it: part of label is set
+    values:
+    - values/required-values.yaml
+    template: client-config.yaml
+    asserts:
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/part-of
+          value: codefresh-tunnel-client
 
     
