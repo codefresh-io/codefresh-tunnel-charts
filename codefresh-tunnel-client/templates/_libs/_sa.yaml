@@ -3,12 +3,14 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-name: {{ include "codefresh-tunnel-client.serviceAccountName" . }}
-labels:
-    {{- include "codefresh-tunnel-client.labels" . | nindent 4 }}
-    {{- with .Values.serviceAccount.annotations }}
-annotations:
+  name: {{ include "codefresh-tunnel-client.serviceAccountName" . }}
+  labels:
+      {{- include "codefresh-tunnel-client.labels" . | nindent 4 }}
+      {{- with .Values.serviceAccount.annotations }}
+  annotations:
     {{- toYaml . | nindent 4 }}
+  labels:
+    {{- include "codefresh-tunnel-client.labels" . | nindent 4 }}
     {{- end }}
   {{- end }}
 {{- end }}
