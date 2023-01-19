@@ -77,7 +77,7 @@ podAnnotations: {}
 
 # For scaling of the tunnel server set scaling to true. This requires the router component to be created
 scaling:
-  enabled: true
+  enabled: false
   # Redis parameters.
   redisURL:
     # Set either plain URL or a reference to an existing secret
