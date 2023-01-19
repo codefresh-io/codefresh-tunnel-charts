@@ -12,7 +12,3 @@ data:
     dashboard_user = admin
     dashboard_pwd = admin
     log_level = trace
-    [plugin.codefresh]
-    addr = 127.0.0.1:7200
-    path = /newProxy
-    ops = NewProxy
