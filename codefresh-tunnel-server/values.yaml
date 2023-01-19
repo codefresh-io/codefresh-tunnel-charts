@@ -17,7 +17,7 @@ plugin:
   resources: {}
 
 tunnels:
-  subdomainHost: # Will be created in the form *.subdomain
+  subdomainHost: local-tunnel.pipeline-team.cf-cd.com
   service:
     type: ClusterIP
     annotations:
