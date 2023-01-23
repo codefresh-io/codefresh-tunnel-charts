@@ -17,7 +17,7 @@ plugin:
   resources: {}
 
 tunnels:
-  subdomainHost: # Will be created in the form *.subdomain
+  subdomainHost: local-tunnel.pipeline-team.cf-cd.com
   service:
     type: ClusterIP
     annotations:
@@ -43,7 +43,7 @@ service:
   annotations:
 # This ingress will be used to register new tunnels
 ingress:
-  enabled: false
+  enabled: true
   host: # Host for tunnel registration
   ingressClassName: "nginx"
   annotations: {}
@@ -77,7 +77,7 @@ podAnnotations: {}
 
 # For scaling of the tunnel server set scaling to true. This requires the router component to be created
 scaling:
-  enabled: true
+  enabled: false
   # Redis parameters.
   redisURL:
     # Set either plain URL or a reference to an existing secret
