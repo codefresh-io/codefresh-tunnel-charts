@@ -1,7 +1,7 @@
 {{- define "codefresh-tunnel-client.resources" -}}
-{{- include "codefresh-tunnel-client.config" . }}
+{{ include "codefresh-tunnel-client.config" . }}
 ---
-{{- include "codefresh-tunnel-client.deployment" . }}
+{{ include "codefresh-tunnel-client.deployment" . }}
 ---
-{{- include "codefresh-tunnel-client.sa" . }}
+{{ include "codefresh-tunnel-client.sa" . }}
 {{- end}}
