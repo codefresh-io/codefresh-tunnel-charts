@@ -14,8 +14,8 @@ tests:
       - contains:
           path: spec.ports
           content:
-            port: 80
-            targetPort: 80
+            port: 8080
+            targetPort: 8080
             protocol: TCP
             name: tunnels
       - equal:
@@ -38,8 +38,8 @@ tests:
       - contains:
           path: spec.ports
           content:
-            port: 80
-            targetPort: 80
+            port: 8080
+            targetPort: 8080
             protocol: TCP
             name: tunnels
       - equal:
