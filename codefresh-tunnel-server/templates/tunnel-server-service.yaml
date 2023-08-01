@@ -12,9 +12,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
   - name: server
-    targetPort: 80
+    targetPort: 8080
     protocol: TCP
-    port: 80
+    port: 8080
   - name: dashboard
     targetPort: 7500
     protocol: TCP

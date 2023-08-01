@@ -34,7 +34,7 @@ spec:
           env:
           {{- include "codefresh-tunnel-server.redis-url-env" . | nindent 10 }}
           - name: BIND_ADDR
-            value: 0.0.0.0:80
+            value: 0.0.0.0:8080
           {{- with .Values.scaling.router.env -}}
             {{ . | toYaml | nindent 10 }}
           {{- end }}

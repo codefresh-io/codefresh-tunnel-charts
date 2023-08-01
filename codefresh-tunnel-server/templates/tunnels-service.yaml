@@ -12,9 +12,9 @@ spec:
   type: {{ .Values.tunnels.service.type }}
   ports:
   - name: tunnels
-    targetPort: 80
+    targetPort: 8080
     protocol: TCP
-    port: 80
+    port: 8080
   selector:
     {{- if .Values.scaling.enabled }}
       {{- include "codefresh-tunnel-router.selectorLabels" . | nindent 4 }}

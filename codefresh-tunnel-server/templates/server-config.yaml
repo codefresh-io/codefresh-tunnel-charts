@@ -5,8 +5,8 @@ metadata:
 data:
   frps.ini: |-
     [common]
-    bind_port = 80
-    vhost_http_port = 80
+    bind_port = 8080
+    vhost_http_port = 8080
     subdomain_host = {{ .Values.tunnels.subdomainHost }}
     dashboard_port = 7500
     dashboard_user = admin
