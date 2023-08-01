@@ -37,7 +37,7 @@ tunnels:
       # Custom private key (base64 encoded)
       key: ""
 
-# The serice of the tunnel server
+# The service of the tunnel server
 service:
   type: ClusterIP
   annotations:
