@@ -12,7 +12,7 @@ plugin:
   image:
     repository: gcr.io/codefresh-inc/codefresh-io/frp-codefresh-plugin
     pullPolicy: IfNotPresent
-    tag: "2022.09.20-4ff9c27"
+    tag: "2023.08.11-6180fdf"
   env: []
   resources: {}
 
