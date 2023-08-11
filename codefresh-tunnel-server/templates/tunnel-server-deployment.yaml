@@ -68,9 +68,7 @@ spec:
               fieldRef:
                 fieldPath: status.podIP
           - name: FRPS_PORT
-            valueFrom:
-              fieldRef:
-                fieldPath: spec.containers[0].ports[0].containerPort
+            value: "8080"
           - name: SERVER_MODE
             value: debug
           {{- with .Values.plugin.env -}}
