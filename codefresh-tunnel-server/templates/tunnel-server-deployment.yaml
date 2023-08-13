@@ -30,6 +30,9 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: tunnel-server
+          ports:
+          - name: http
+            containerPort: 8080
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           env:
           {{- with .Values.env -}}
@@ -64,6 +67,8 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
+          - name: FRPS_PORT
+            value: "8080"
           - name: SERVER_MODE
             value: debug
           {{- with .Values.plugin.env -}}
