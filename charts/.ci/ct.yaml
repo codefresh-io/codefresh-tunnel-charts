@@ -1,0 +1,10 @@
+# See https://github.com/helm/chart-testing#configuration
+remote: origin
+target-branch: main
+chart-dirs:
+  - codefresh-tunnel-client
+  - codefresh-tunnel-server
+chart-repos: []
+helm-extra-args: "--timeout 600s"
+validate-yaml: true
+check-version-increment: true
