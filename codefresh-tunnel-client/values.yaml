@@ -3,9 +3,9 @@
 libraryMode: false
 
 image:
-  repository: quay.io/codefresh/frpc
+  repository: quay.io/codefresh/dev/frpc
   pullPolicy: IfNotPresent
-  tag: "2024.06.07-80a65a8"
+  tag: "2025.03.04-52de940"
 
 # set log level for tunnel client
 logLevel: 'info'
