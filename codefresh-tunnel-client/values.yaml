@@ -3,7 +3,7 @@
 libraryMode: false
 
 image:
-  repository: quay.io/codefresh/dev/frpc
+  repository: quay.io/codefresh/frpc
   pullPolicy: IfNotPresent
   tag: "2025.03.04-52de940"
 
