@@ -2,6 +2,8 @@
 # Added to support usage in codefresh-gitops-runtime Helm chart
 libraryMode: false
 
+global: {}
+
 image:
   repository: quay.io/codefresh/frpc
   pullPolicy: IfNotPresent
