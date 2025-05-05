@@ -80,5 +80,4 @@ spec:
       {{- with $allAffinity }}
       affinity: {{ toYaml . | nindent 8 }}
       {{- end }}
-      volumes:
 {{- end }}
