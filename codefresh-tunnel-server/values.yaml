@@ -10,9 +10,9 @@ server:
 
 plugin:
   image:
-    repository: gcr.io/codefresh-inc/codefresh-io/frp-codefresh-plugin
+    repository: us-docker.pkg.dev/codefresh-inc/gcr.io/codefresh-io/frp-codefresh-plugin
     pullPolicy: IfNotPresent
-    tag: "2023.10.09-da4b917"
+    tag: "2025.06.27-d5951b7"
   env: []
   resources: {}
 
@@ -100,9 +100,9 @@ scaling:
       type:
     nameOverride:
     image:
-      repository: gcr.io/codefresh-inc/codefresh-io/frp-router
+      repository: us-docker.pkg.dev/codefresh-inc/gcr.io/codefresh-io/frp-router
       pullPolicy: IfNotPresent
-      tag: "2023.10.09-d7f89a0"
+      tag: "2025.06.27-af14bb7"
       # Additional environemnt variables for router
     env: []
     serviceAccount:
