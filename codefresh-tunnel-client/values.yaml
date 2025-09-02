@@ -7,7 +7,7 @@ global: {}
 image:
   repository: quay.io/codefresh/frpc
   pullPolicy: IfNotPresent
-  tag: "2025.03.04-52de940"
+  tag: "59bd12e"
 
 # set log level for tunnel client
 logLevel: 'info'
