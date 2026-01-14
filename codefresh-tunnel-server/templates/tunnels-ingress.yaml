@@ -3,6 +3,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "codefresh-tunnel-server.name" . }}-tunnels
+  annotations:
+    {{- with .Values.tunnels.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.tunnels.ingress.ingressClassName}}
   rules:
